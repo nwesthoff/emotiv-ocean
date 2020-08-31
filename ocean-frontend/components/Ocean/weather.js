@@ -1,7 +1,7 @@
 import { mapRange } from "../../utils/index";
 
 // calm probability from 0 to 1 - the higher the more calm
-export const calmRange = [0.2, 0.5]; // more sensitive
+export const calmRange = [0.4, 0.8]; // more sensitive
 const choppinessRange = [0, 2.5];
 const windRange = [5, 25];
 const sizeRange = [100, 1000];

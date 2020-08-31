@@ -17,9 +17,12 @@ let user = {
 };
 
 let c = new Cortex(user, socketUrl);
+let connection;
 
 console.info("SERVER STARTED");
 wss.on("connection", (ws: WebSocket) => {
+  connection = ws;
+
   wss.clients.forEach((data) => {
     console.log("Connected to client");
   });
@@ -29,10 +32,12 @@ wss.on("connection", (ws: WebSocket) => {
     console.log("received: %s", message);
     ws.send(`Hello, you sent -> ${message}`);
   });
+});
 
-  c.live("Nils2", async (data) => {
-    console.log(data);
-  });
+c.sub(["com"], async (data) => {
+  if (connection && connection.OPEN === 1) {
+    connection.send(JSON.stringify(data));
+  }
 });
 
 //start our server
