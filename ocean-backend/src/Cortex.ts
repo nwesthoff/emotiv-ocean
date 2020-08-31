@@ -24,8 +24,7 @@ export default class Cortex {
     // create socket
     process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
     this.socket = new WebSocket(socketUrl);
-
-    // read user infor
+    // read user information
     this.user = user;
   }
 
@@ -698,6 +697,7 @@ export default class Cortex {
    * - 'push' command should show up on mental command stream
    */
   live(profileName: string, handleResult: (data) => void) {
+    console.log(this.socket);
     this.socket.on("open", async () => {
       await this.checkGrantAccessAndQuerySessionInfo();
 

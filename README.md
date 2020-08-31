@@ -8,7 +8,7 @@ Built with:
 
 ## Try it yourself
 
-I'm assuming you've installed EmotivApps and set up an Emotiv Developer license. When you've done that, create `.env.local` in `ocean-backend` with your Client ID and Secret as such:
+I'm assuming you've installed EmotivApps and set up an Emotiv Developer license. When you've done that, create `.env` in `ocean-backend` with your Client ID and Secret as such:
 
 ```
 EMOTIV_CLIENT_ID=your_id

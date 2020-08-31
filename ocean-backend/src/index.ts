@@ -1,6 +1,12 @@
 require("dotenv").config();
 import Cortex from "./Cortex";
 import WebSocket from "ws";
+import http from "http";
+import express from "express";
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
 // put your license, client id, client secret to user object
 let socketUrl = "wss://localhost:6868";
@@ -11,23 +17,26 @@ let user = {
 };
 
 let c = new Cortex(user, socketUrl);
-c.live("Nils2", (data) => {
-  // ws.send(data);
-  console.log(data);
-});
-
-const wss = new WebSocket.Server({ port: 8080 });
 
 console.info("SERVER STARTED");
-
-wss.on("connection", function connection(ws) {
+wss.on("connection", (ws: WebSocket) => {
   wss.clients.forEach((data) => {
     console.log("Connected to client");
   });
 
-  // console.log(`Starting Cortex Server for: ${c.headsetId}`);
-  // c.live("Nils2", (data) => {
-  //   console.log(data.com);
-  //   ws.send(data);
-  // });
+  ws.on("message", (message: string) => {
+    //log the received message and send it back to the client
+    console.log("received: %s", message);
+    ws.send(`Hello, you sent -> ${message}`);
+  });
+
+  c.live("Nils2", async (data) => {
+    console.log(data);
+  });
+});
+
+//start our server
+server.listen(process.env.PORT || 8080, () => {
+  const { port } = server.address() as any;
+  console.log(`Server started on address: ${port} :)`);
 });
