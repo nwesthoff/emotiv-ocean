@@ -3,7 +3,8 @@ import { mapRange } from "../../utils/index";
 import styles from "./Sound.module.css";
 
 const volumeRange = [0.05, 0.3];
-let niceOceanSounds;
+let niceOceanSounds: HTMLAudioElement;
+
 if (typeof window !== "undefined") {
   niceOceanSounds = new Audio("sounds/niceOceanSounds.mp3");
 }
@@ -18,7 +19,10 @@ export function Sound({ calm, calmRange }) {
       toRange: volumeRange,
       reverse: true,
     });
-    niceOceanSounds.volume = volume;
+
+    if (volume >= 0 && volume <= 1) {
+      niceOceanSounds.volume = volume;
+    }
   }, [calm]);
 
   function playSounds() {
@@ -39,7 +43,7 @@ export function Sound({ calm, calmRange }) {
         <img
           src="images/noVolume.png"
           width="30px"
-          hieght="30px"
+          height="30px"
           onClick={playSounds}
           alt="Volume Off Button"
           className={styles.audioLogo}
@@ -51,7 +55,7 @@ export function Sound({ calm, calmRange }) {
     <img
       src="images/volume.png"
       width="30px"
-      hieght="30px"
+      height="30px"
       onClick={playSounds}
       alt="Volume On Button"
       className={styles.audioLogo}
